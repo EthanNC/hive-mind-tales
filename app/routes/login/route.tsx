@@ -89,7 +89,7 @@ export default function LoginRoute() {
 
       <Spacer size="sm" />
 
-      <ValidatedForm method="POST" validator={validator}>
+      <ValidatedForm method="POST" validator={validator} action="">
         <FormInput
           id="email"
           name="email"

@@ -120,5 +120,8 @@
     "plugins": [
       "prettier-plugin-tailwindcss"
     ]
+  },
+  "volta": {
+    "node": "18.16.0"
   }
 }

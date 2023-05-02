@@ -5,17 +5,17 @@ import { use } from "sst/constructs"
 import { Bus } from "./bus"
 import { Database } from "./database"
 
-export function Api(ctx: StackContext) {
+export function Api({ stack }: StackContext) {
   const { DATABASE_URL } = use(Database)
   const { bus } = use(Bus)
-  const api = new ApiGateway(ctx.stack, "api", {
-    customDomain: {
-      domainName:
-        ctx.app.stage === "production"
-          ? "api.hivemindtales.com"
-          : `api.${ctx.app.stage}.hivemindtales.com`,
-      hostedZone: "hivemindtales.com",
-    },
+  const api = new ApiGateway(stack, "api", {
+    // customDomain: {
+    //   domainName:
+    //     ctx.app.stage === "production"
+    //       ? "api.hivemindtales.com"
+    //       : `api.${ctx.app.stage}.hivemindtales.com`,
+    //   hostedZone: "hivemindtales.com",
+    // },
     defaults: {
       function: {
         bind: [bus, DATABASE_URL],
@@ -29,7 +29,10 @@ export function Api(ctx: StackContext) {
       "POST /trpc/{proxy+}": "server/functions/trpc.handler",
     },
   })
-  return {
-    api,
-  }
+
+  stack.addOutputs({
+    API: api.url,
+  })
+
+  return api
 }

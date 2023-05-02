@@ -11,8 +11,7 @@ export default {
   config(input) {
     return {
       name: "hmt",
-      region: input.stage === "production" ? "us-east-1" : "ap-southeast-1",
-      profile: "sockthedev",
+      region: "us-east-1",
     }
   },
   stacks(app) {
@@ -25,6 +24,9 @@ export default {
       nodejs: {
         format: "esm",
       },
+      // environment: {
+      //   API_URL: api.url,
+      // },
       memorySize: "512 MB",
       logRetention: "one_day",
     })
@@ -33,7 +35,7 @@ export default {
     app.stack(Bus)
     app.stack(Api)
     app.stack(Authentication)
-    app.stack(OpenGraph)
+    // app.stack(OpenGraph)
     app.stack(Site)
   },
 } satisfies SSTConfig

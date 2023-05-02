@@ -1,7 +1,10 @@
-import type { StackContext } from "sst/constructs"
+import { StackContext, use } from "sst/constructs"
 import { RemixSite } from "sst/constructs"
 
+import { Api } from "./api"
+
 export function Site(ctx: StackContext) {
+  const api = use(Api)
   const site = new RemixSite(ctx.stack, "site", {
     runtime: "nodejs16.x",
     buildCommand: "pnpm remix build",
@@ -14,10 +17,7 @@ export function Site(ctx: StackContext) {
           }
         : undefined,
     environment: {
-      API_URL:
-        ctx.app.stage === "production"
-          ? "https://api.hivemindtales.com"
-          : `https://api.${ctx.app.stage}.hivemindtales.com`,
+      API_URL: api.url,
     },
     waitForInvalidation: ctx.app.stage === "production",
   })

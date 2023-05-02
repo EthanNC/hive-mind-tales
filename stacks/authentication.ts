@@ -6,7 +6,7 @@ import { Database } from "./database"
 
 export function Authentication(ctx: StackContext) {
   const { DATABASE_URL } = use(Database)
-  const { api } = use(Api)
+  const api = use(Api)
   const GOOGLE_CLIENT_ID = new Config.Secret(ctx.stack, "GOOGLE_CLIENT_ID")
   const SITE_URL = new Config.Parameter(ctx.stack, "SITE_URL", {
     value:
