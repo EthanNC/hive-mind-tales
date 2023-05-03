@@ -1,4 +1,4 @@
-import type { LinksFunction } from "@remix-run/node"
+import type { LinksFunction, LoaderFunction } from "@remix-run/node"
 import type { V2_MetaFunction } from "@remix-run/react"
 import {
   Links,
@@ -7,10 +7,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react"
 
 import { Footer } from "./components/footer"
 import { Header } from "./components/header"
+import { getUser } from "./server/session.server"
 import stylesheet from "./tailwind.css"
 
 export const links: LinksFunction = () => [
@@ -31,7 +33,22 @@ export const meta: V2_MetaFunction = () => [
   },
 ]
 
+export const loader: LoaderFunction = async ({ request }) => {
+  const user = await getUser(request)
+
+  return {
+    user,
+  }
+}
+
+// type ContextType = { user: User | null }
+
+// export function useUser() {
+//   return useOutletContext<ContextType>()
+// }
+
 export default function App() {
+  const { user } = useLoaderData<ReturnType<typeof loader>>()
   return (
     <html lang="en">
       <head>
@@ -40,7 +57,7 @@ export default function App() {
       </head>
       <body className="bg-yellow-50 text-slate-900">
         <div className="mx-auto grid min-h-screen max-w-8xl grid-cols-1 grid-rows-layout px-6">
-          <Header />
+          <Header user={user} />
           <main className="h-full">
             <Outlet />
           </main>

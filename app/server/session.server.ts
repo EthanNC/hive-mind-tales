@@ -18,8 +18,7 @@ const tokenSchema = zod.object({
 
 export type SessionUser = zod.infer<typeof sessionDataSchema>
 
-
-   function parseToken(token: string): SessionUser | null {
+function parseToken(token: string): SessionUser | null {
   const decodedToken = decodeJwt(token)
   if (typeof decodedToken !== "object") {
     return null
@@ -36,7 +35,7 @@ const SESSION_TOKEN_KEY = "userToken"
 
 const SESSION_USER_DATA_KEY = "userData"
 
-  export const sessionStorage = createCookieSessionStorage({
+export const sessionStorage = createCookieSessionStorage({
   cookie: {
     name: "hmtSession",
     httpOnly: true,

@@ -1,6 +1,13 @@
 import { Link } from "@remix-run/react"
 
-export const Header: React.FC = () => {
+import type { User } from "~/server/db/db.types"
+
+interface Props {
+  user: User | null
+}
+
+export const Header = ({ user }: Props) => {
+  //check if logged in
   return (
     <header className="sticky left-0 top-0 z-50 flex h-14 items-center justify-between bg-yellow-50 py-2">
       <Link
@@ -21,6 +28,11 @@ export const Header: React.FC = () => {
           <li>
             <Link to="/my/stories">My Stories</Link>
           </li>
+          {user && (
+            <li>
+              <Link to="/logout">Logout</Link>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
