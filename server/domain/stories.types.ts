@@ -1,4 +1,4 @@
-import { Part } from "../db/db.types"
+import type { Part } from "../db/db.types"
 
 export type { Part } from "../db/db.types"
 

@@ -4,6 +4,7 @@ import {
 } from "@aws-sdk/client-eventbridge"
 import type { SQSEvent } from "aws-lambda"
 import { EventBus } from "sst/node/event-bus"
+
 import { Auth } from "~/server/domain/auth.js"
 
 interface BusEvents {

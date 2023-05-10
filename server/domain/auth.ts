@@ -3,7 +3,7 @@ import { Context } from "sst/context"
 import type { SessionValue } from "sst/node/auth"
 import { getPublicKey, useSession } from "sst/node/auth"
 
-import { db } from "~/server/db/db"
+// import { db } from "~/server/db/db"
 import { Dates } from "~/server/lib/dates.js"
 
 import { InternalError, UnauthorizedError } from "./errors.js"
@@ -54,35 +54,37 @@ export abstract class Auth {
     User | UnauthorizedError
   > {
     try {
-      const session = useSession()
+      // const session = useSession()
 
-      if (session.type === "user") {
-        const user = await db
-          .selectFrom("user")
-          .where("userId", "=", session.properties.userId)
-          .selectAll()
-          .executeTakeFirst()
+      // if (session.type === "user") {
+      //   const user = await db
+      //     .selectFrom("user")
+      //     .where("userId", "=", session.properties.userId)
+      //     .selectAll()
+      //     .executeTakeFirst()
 
-        if (!user) {
-          return new UnauthorizedError("Invalid user for authentication token")
-        }
+      //   if (!user) {
+      //     return new UnauthorizedError("Invalid user for authentication token")
+      //   }
 
-        if (
-          user.userType !== UserType.User &&
-          user.userType !== UserType.Admin
-        ) {
-          return new UnauthorizedError(
-            "Invalid user type for authentication token",
-          )
-        }
+      //   if (
+      //     user.userType !== UserType.User &&
+      //     user.userType !== UserType.Admin
+      //   ) {
+      //     return new UnauthorizedError(
+      //       "Invalid user type for authentication token",
+      //     )
+      //   }
 
-        AuthContext.provide(user)
+      //   AuthContext.provide(user)
 
-        return user
-      } else {
-        AuthContext.provide(AnonymousActor)
-        return AnonymousActor
-      }
+      //   return user
+      // } else {
+      //   AuthContext.provide(AnonymousActor)
+      //   return AnonymousActor
+      // }
+      AuthContext.provide(AnonymousActor)
+      return AnonymousActor
     } catch (err: any) {
       if (typeof err === "object" && err.code) {
         if (err.code === "FAST_JWT_INVALID_SIGNATURE") {
@@ -116,11 +118,11 @@ export abstract class Auth {
       throw new InternalError("Invalid token")
     }
 
-    return db
-      .selectFrom("user")
-      .where("userId", "=", jwt.properties.userId)
-      .selectAll()
-      .executeTakeFirst()
+    // return db
+    //   .selectFrom("user")
+    //   .where("userId", "=", jwt.properties.userId)
+    //   .selectAll()
+    //   .executeTakeFirst()
   }
 
   /**
